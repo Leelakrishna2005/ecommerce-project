@@ -1,12 +1,7 @@
 import axios from 'axios';
 
-// Backend URLs
-const LOCAL_BACKEND = "http://localhost:5454";
-const SERVER_BACKEND = "http://192.168.1.100:5454"; // 🔹 replace with the IP/hostname where Jenkins runs
-
-// Decide which to use (local vs deployed server)
-export const API_BASE_URL =
-  window.location.hostname === "localhost" ? LOCAL_BACKEND : SERVER_BACKEND;
+// Use Docker service name for backend
+export const API_BASE_URL = "http://backend:5454"; 
 
 // Axios instance
 const api = axios.create({
