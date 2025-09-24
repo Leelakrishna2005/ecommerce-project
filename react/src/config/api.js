@@ -1,19 +1,22 @@
+// inside react code
 import axios from 'axios';
 
-// Use Docker service name for backend
-export const API_BASE_URL = "http://backend:5454"; 
+const LOCAL_BACKEND = 'http://localhost:5454';
+const DOCKER_BACKEND = 'http://backend:5454';  // "backend" is name of service in Docker Compose
+const PROD_BACKEND = 'https://your-production-api.com';  // change if you deploy
 
-// Axios instance
-const api = axios.create({
-  baseURL: API_BASE_URL,
-});
+let baseURL;
 
-// Add JWT token if available
-const token = localStorage.getItem('jwt');
-if (token) {
-  api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+if (window.location.hostname === 'localhost') {
+  baseURL = LOCAL_BACKEND;
+} else if (window.location.hostname === 'backend' || window.location.hostname === 'some-docker-domain') {
+  baseURL = DOCKER_BACKEND;
+} else {
+  baseURL = PROD_BACKEND;
 }
 
-api.defaults.headers.post['Content-Type'] = 'application/json';
+const api = axios.create({
+  baseURL,
+});
 
 export default api;
