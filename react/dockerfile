@@ -8,7 +8,9 @@ RUN npm run build
 
 # Serve the React app with Nginx
 FROM nginx:alpine
-WORKDIR /usr/share/nginx/html
-COPY --from=build /app/build .
-EXPOSE 3000
+# Copy the build output from the 'build' stage to the Nginx web root directory
+COPY --from=build /app/build /usr/share/nginx/html
+# Expose port 80, the default HTTP port for Nginx
+EXPOSE 80
+# Start Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
