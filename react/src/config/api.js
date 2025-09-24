@@ -1,22 +1,23 @@
-// inside react code
-import axios from 'axios';
+import axios from "axios";
 
-const LOCAL_BACKEND = 'http://localhost:5454';
-const DOCKER_BACKEND = 'http://backend:5454';  // "backend" is name of service in Docker Compose
-const PROD_BACKEND = 'https://your-production-api.com';  // change if you deploy
+const LOCAL_BACKEND = "http://localhost:5454";
+const DOCKER_BACKEND = "http://backend:5454";
+const PROD_BACKEND = "https://your-production-api.com";
 
-let baseURL;
+let API_BASE_URL;
 
-if (window.location.hostname === 'localhost') {
-  baseURL = LOCAL_BACKEND;
-} else if (window.location.hostname === 'backend' || window.location.hostname === 'some-docker-domain') {
-  baseURL = DOCKER_BACKEND;
+if (window.location.hostname === "localhost") {
+  API_BASE_URL = LOCAL_BACKEND;
+} else if (window.location.hostname === "backend") {
+  API_BASE_URL = DOCKER_BACKEND;
 } else {
-  baseURL = PROD_BACKEND;
+  API_BASE_URL = PROD_BACKEND;
 }
 
+export const BASE_URL = API_BASE_URL;  // 👈 named export
+
 const api = axios.create({
-  baseURL,
+  baseURL: API_BASE_URL,
 });
 
-export default api;
+export default api;   // 👈 default export
